@@ -70,3 +70,23 @@ export const http = (options: Uniapp.RequestOptions)=>{
 	})
 }
 ```
+
+## 安全区域
+
+```ts
+const safeArea = uni.getSystemInfoSync().safeArea
+console.log(safeArea?.top)
+```
+
+样式
+```html
+<div :style="{ paddingTop: safeArea?.top + 'px' }" />
+```
+
+uni-api 调用并查找手机安全区域。
+
+
+! 非空断言
+
+uniapp页面周期
+- onload（）
