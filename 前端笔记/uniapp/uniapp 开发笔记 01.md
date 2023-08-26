@@ -306,3 +306,6 @@ request.interceptors.response.use({
 
 
 ```
+
+axios 本身集成了promise 所以直接用就好了
+
