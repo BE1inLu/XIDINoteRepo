@@ -27,7 +27,7 @@ JavaScript 里做测试的话找到mocha 这个包，往后搜也搜到了elec
 
 ● ts-node
 
-●~~tsconfig-paths* ~~
+●~~tsconfig-paths*~~
 
 ● ~~cross-env*
 
