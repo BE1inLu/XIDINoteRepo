@@ -97,9 +97,9 @@ describe("UserService", () => {
 通过创建一个工厂类返回 repository 的方法
 
 ```ts
-// mode 2
 
 // mocktype.ts
+
 export type MockType<T> = {
   [P in keyof T]?: jest.Mock<{}>;
 };
@@ -146,7 +146,7 @@ describe("UserService", () => {
 ## 关于微服务
 
 grpc 远过程调用  
-redis 缓存中间件
+redis 缓存中间件  
 rebbitmq 消息队列  
 
 最近在对之前写的鉴权 demo 做了微服务的实践，把单体项目转成微服务的形式。
@@ -169,5 +169,28 @@ service-project 这里作为一个测试的服务，比如说后续扩展业务�
 protolib 保存 grpcbuf 文件，和生成 proto 文件的接口调用
 
 core 用来存放泛用的数据，util，decorator，config，common 这些
+
+### 怎么用 grpc？
+
+- 定义 \*.proto 文件
+- 在服务端 main.ts 注册 grpc 微服务
+- 写对应的 server 服务
+- 在客户端 \*.module.ts 注册 grpc 服务
+- 在需要调用的 server.ts 方法上导入对应的方法 
+
+#### 一些心得
+
+- \*.proto 生成对应的调用接口，定义方法可以用 protoc 来生成  
+
+>[!note]
+>需要导入包 protoc ，protobufjs，ts-proto
+
+```bash
+npx protoc --plugin=protoc-gen-ts_proto=".\\node_modules\\.bin\\protoc-gen-ts_proto.cmd" --ts_proto_opt=nestJs=true --ts_proto_out=...\protolib\src\outdir .../proto/accountservice.proto
+```
+- 
+
+
+
 
 
