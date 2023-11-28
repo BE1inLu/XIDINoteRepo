@@ -94,7 +94,7 @@ describe("UserService", () => {
 
 **Mode 2**
 
-通过创建一个工厂类返回 repository 的方法
+通过创建一个工厂返回 repository 的方法
 
 ```ts
 
@@ -145,20 +145,20 @@ describe("UserService", () => {
 ```
 ## 关于微服务
 
-grpc 远过程调用  
-redis 缓存中间件  
-rebbitmq 消息队列  
+> grpc 远过程调用  
+> redis 缓存中间件  
+> rebbitmq 消息队列    
 
-最近在对之前写的鉴权 demo 做了微服务的实践，把单体项目转成微服务的形式。
+最近在对之前写的鉴权 demo 做了微服务的实践，把单体项目转成 monorepo 的形式，做微服务实践。
 
 结构大概长这样：
 
-- .../app/mainapp
-- .../app/web-api
-- .../app/service-account
-- .../app/service-peoject
-- .../lib/protolib
-- .../lib/core
+- \*\*/app/mainapp
+- \*\*/app/web-api
+- \*\*/app/service-account
+- \*\*/app/service-peoject
+- \*\*/lib/protolib
+- \*\*/lib/core
 
 web-api 负责暴露外部的通信方法，即 http 协议的 api ，同时做鉴权拦截处理
 
@@ -188,8 +188,35 @@ core 用来存放泛用的数据，util，decorator，config，common 这些
 ```bash
 npx protoc --plugin=protoc-gen-ts_proto=".\\node_modules\\.bin\\protoc-gen-ts_proto.cmd" --ts_proto_opt=nestJs=true --ts_proto_out=...\protolib\src\outdir .../proto/accountservice.proto
 ```
-- 
 
+- 组织 proto 文件可以单独开个 lib 目录存放，放生成的接口定义和 protobuf 文件。可以的话也可以单独做个工厂方法，定义 client 和 server 调用。
+
+```ts
+// microsrviceFactory.ts
+export contant microsrviceFactory=(app,protoPath,options)=>{
+	app.connectMicroservice({
+		transport:Transport.GRPC,
+		options:{
+			url:process.env.URL,
+			package:options.package,
+			protoPath:protoPath,
+		}
+	})
+	await app.startAllMicroservicesAsync();
+	await app.listen(null);
+}
+
+// path/to/microservice/main.ts
+async function bootstrap(){
+	cosnt app = await NestFactory.create(MicroServiceModule)
+	await microsrviceFactory(app,"pro/to/path.proto",{package,...options})
+}
+bootstrap()
+
+```
+
+
+PS. 最近换了 win11，看来微软对开发者支持力度挺大的。开发体验win11要好过win10。特别是 powerToys ，全局唤起搜索不要太爽。
 
 
 
