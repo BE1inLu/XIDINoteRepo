@@ -26,7 +26,7 @@ describe("UserService", () => {
 ## 使用 typeorm 的情况下对 service 进行测试
 
 两种办法，一个是创建一个新的数据库进行测试  
-第二种办法是，自己 mock 一个数据库出来   
+第二种办法是，自己 mock 一个数据库出来
 
 这里说的是第二种办法  
 
@@ -143,11 +143,12 @@ describe("UserService", () => {
   });
 });
 ```
+
 ## 关于微服务
 
 > grpc 远过程调用  
 > redis 缓存中间件  
-> rebbitmq 消息队列    
+> rebbitmq 消息队列
 
 最近在对之前写的鉴权 demo 做了微服务的实践，把单体项目转成 monorepo 的形式，做微服务实践。
 
@@ -176,7 +177,7 @@ core 用来存放泛用的数据，util，decorator，config，common 这些
 - 在服务端 main.ts 注册 grpc 微服务
 - 写对应的 server 服务
 - 在客户端 \*.module.ts 注册 grpc 服务
-- 在需要调用的 server.ts 方法上导入对应的方法 
+- 在需要调用的 server.ts 方法上导入对应的方法
 
 #### 一些心得
 
@@ -194,30 +195,25 @@ npx protoc --plugin=protoc-gen-ts_proto=".\\node_modules\\.bin\\protoc-gen-ts_pr
 ```ts
 // microsrviceFactory.ts
 export contant microsrviceFactory=(app,protoPath,options)=>{
-	app.connectMicroservice({
-		transport:Transport.GRPC,
-		options:{
-			url:process.env.URL,
-			package:options.package,
-			protoPath:protoPath,
-		}
-	})
-	await app.startAllMicroservicesAsync();
-	await app.listen(null);
+ app.connectMicroservice({
+  transport:Transport.GRPC,
+  options:{
+   url:process.env.URL,
+   package:options.package,
+   protoPath:protoPath,
+  }
+ })
+ await app.startAllMicroservicesAsync();
+ await app.listen(null);
 }
 
 // path/to/microservice/main.ts
 async function bootstrap(){
-	cosnt app = await NestFactory.create(MicroServiceModule)
-	await microsrviceFactory(app,"pro/to/path.proto",{package,...options})
+ cosnt app = await NestFactory.create(MicroServiceModule)
+ await microsrviceFactory(app,"pro/to/path.proto",{package,...options})
 }
 bootstrap()
 
 ```
 
-
 PS. 最近换了 win11，看来微软对开发者支持力度挺大的。开发体验win11要好过win10。特别是 powerToys ，全局唤起搜索不要太爽。
-
-
-
-
