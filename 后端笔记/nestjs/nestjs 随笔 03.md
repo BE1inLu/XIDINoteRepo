@@ -15,7 +15,7 @@ nestjs 随笔 03
 - 把 `entity` 提取出来
 - 每个模块下可以根据需要自动导入所需的 `entity`
 
-先从第一个问题解决，第一个问题简单，我把 `account` 文件夹下的 `entity` 全部提取出来，单独创建一个新的 lib 并放入进去。
+先从第一个问题解决，第一个问题简单，我把 `account` 文件夹下的 `entity` 全部提取出来，单独创建一个新的 `lib` 并放入进去。
 
 ```bash
 nest g lib repository
@@ -113,7 +113,7 @@ export class testService{
 }
 ```
 
-我的理解是，重点是在 provider 这里。这里的 provider 返回注入的参数。
+我的理解是，重点是在 `provider` 这里。这里的 `provider` 返回注入的参数。
 
 同样的，因为写 `grpc` 服务也需要大量的 `client` 服务需要注册，这时候改写成动态模块的方式导入就变得异常舒适。
 
@@ -173,4 +173,3 @@ describe("FooService", () => {
 });
 
 ```
-
